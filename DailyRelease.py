@@ -14,7 +14,7 @@ def releaseRaw():
     print("==========================================")
     today=datetime.today().strftime('%Y-%m-%d')
     filename = today+"-raw.txt"
-    path = "C:\\Users\\roshan.liu\\Scripts\\SAP_DailyRelease\\SAP_OUTPUT"
+    path = "C:\\Users\\roshan.liu\\Scripts\\SAP_OUTPUT"
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\ReleaseRaw.vbs {} {}".format(path,filename))
     print("==========================================")
     print("Raw Released")
@@ -24,7 +24,7 @@ def releaseRaw():
 
 def releaseChecked(SAPtoRel):
     today=datetime.today().strftime('%Y-%m-%d')
-    path = "C:\\Users\\roshan.liu\\Scripts\\SAP_DailyRelease\\SAP_OUTPUT"
+    path = "C:\\Users\\roshan.liu\\Scripts\\SAP_OUTPUT"
     filename = today+"-checked.txt"
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\vl10dNav.vbs")
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\vl10d_InputMultiple.vbs")
@@ -49,10 +49,10 @@ def refine(TXT):
                 oo.write(line)
 def findPartial():
     today=datetime.today().strftime('%Y-%m-%d')
-    TXT = r'C:/Users/roshan.liu/Scripts/SAP_DailyRelease/SAP_OUTPUT/{}-raw.txt'.format(today)
+    TXT = r'C:/Users/roshan.liu/Scripts/SAP_OUTPUT/{}-raw.txt'.format(today)
     DNtoDel = []
     SAPtoRel = []
-    target = r'C:/Users/roshan.liu/Scripts/SAP_DailyRelease/SAP_OUTPUT/provicional.xlsx'
+    target = r'C:/Users/roshan.liu/Scripts/SAP_OUTPUT/provicional.xlsx'
     df= pd.read_csv(TXT,delim_whitespace=True)
     df.to_excel(target,header=False)
     wb=openpyxl.load_workbook(target)
@@ -84,7 +84,7 @@ def findPartial():
         ws2.cell(r,1).value= SAPtoRel[r]
     for rr in range(1,len(DNtoDel)):
         ws2.cell(rr,3).value=DNtoDel[rr]
-    wb2.save(r"C:/Users/roshan.liu/Scripts/SAP_DailyRelease/SAP_OUTPUT/{}-log.xlsx".format(today))
+    wb2.save(r"C:/Users/roshan.liu/Scripts/SAP_OUTPUT/{}-log.xlsx".format(today))
     wb2.close()
     wb.close()
     os.remove(target)
