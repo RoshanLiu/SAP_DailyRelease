@@ -25,7 +25,7 @@ def releaseRaw():
 def releaseChecked(SAPtoRel):
     today=datetime.today().strftime('%Y-%m-%d')
     path = "C:\\Users\\roshan.liu\\Scripts\\DATA\\SAP_OUTPUT"
-    filename = today+"-checked.txt"
+    filename = today+"-solved.txt"
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\vl10dNav.vbs")
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\vl10d_InputMultiple.vbs")
     for SAP in SAPtoRel:
