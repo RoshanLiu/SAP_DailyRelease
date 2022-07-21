@@ -45,7 +45,7 @@ def deleteRelease(sap,part):
     ;'''
     cursor.execute(query)
     connection.commit
-def importFromText(TXT):
+def importToRelease(TXT):
     raw= pd.read_csv(TXT,delim_whitespace=True)
     target = r'C:/Users/roshan.liu/Scripts/DATA/SAP_OUTPUT/dbprovicional.csv'
     raw.iloc[:,:1].to_csv(target,header=False)
@@ -58,20 +58,20 @@ def importFromText(TXT):
             while df.loc[r]['Item'] < 4000000000:
                 if df.loc[r]['GI'] !='PC':
                     
-                    DATE= TXT.split('//')[-1][0:9]
+                    DATE= TXT.split('//')[-1][0:10]
                     DN =None
                     SAP=v
                     QTY=df.loc[r]['BUn'].split(',')[0]
                     PART = df.loc[r]['GI']
-                    print(SAP,PART,DN,DATE,QTY)
+                    print(SAP,DATE,PART,QTY,DN)
                     insertRelease(SAP,DATE,PART,QTY,DN)
                 else:
-                    DATE= TXT.split('//')[-1][0:9]
+                    DATE= TXT.split('//')[-1][0:10]
                     DN = df.loc[r]['Date']
                     SAP=v
                     QTY=0
                     PART=df.loc[r]['Created']
-                    print(SAP,PART,DN,DATE)
+                    print(SAP,DATE,PART,QTY,DN)
                     insertRelease(SAP,DATE,PART,QTY,DN)
                 r=r+1
                 if r>rowcount-1:

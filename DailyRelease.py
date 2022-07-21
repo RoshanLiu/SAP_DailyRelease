@@ -3,6 +3,8 @@ from datetime import datetime
 import pandas as pd
 import openpyxl
 today=datetime.today().strftime('%Y-%m-%d')
+import Database
+from time import sleep
 
 def deleteDN(DNtoDel):
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\vl02nNav.vbs")
@@ -14,17 +16,18 @@ def releaseRaw():
     print("==========================================")
     today=datetime.today().strftime('%Y-%m-%d')
     filename = today+"-raw.txt"
-    path = "C:\\Users\\roshan.liu\\Scripts\\DATA\\SAP_OUTPUT"
+    path = "C:\\Users\\roshan.liu\\Scripts\\DATA\\SAP_OUTPUT\\"
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\ReleaseRaw.vbs {} {}".format(path,filename))
     print("==========================================")
     print("Raw Released")
     print("==========================================")
     os.system("wmic printer where name='KONICAMINOLTA-bizhub-C558-B9-F9-11' call setdefaultprinter")
-
+    sleep(2)
+    Database.importToRelease(path+filename)
 
 def releaseChecked(SAPtoRel):
     today=datetime.today().strftime('%Y-%m-%d')
-    path = "C:\\Users\\roshan.liu\\Scripts\\DATA\\SAP_OUTPUT"
+    path = "C:\\Users\\roshan.liu\\Scripts\\DATA\\SAP_OUTPUT\\"
     filename = today+"-solved.txt"
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\vl10dNav.vbs")
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\vl10d_InputMultiple.vbs")
@@ -38,6 +41,9 @@ def releaseChecked(SAPtoRel):
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\exist.vbs")
     os.system("Scripts\\SAP_DailyRelease\\SAP_Scripts\\exist.vbs")
     print("Checked Released")
+    sleep(2)
+    Database.importToRelease(path+filename)
+
 
 
 def refine(TXT):
